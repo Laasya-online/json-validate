@@ -1,0 +1,31 @@
+name: JSON Validate
+description: Validate a JSON file against a JSON Schema (draft 2020-12).
+author: Your Name
+inputs:
+  json_path:
+    description: Path to the JSON file to validate
+    required: true
+  schema_path:
+    description: Path to the JSON Schema file
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Validate JSON
+      shell: bash
+      run: |
+        python validate.py "${{ inputs.json_path }}" "${{ inputs.schema_path }}"
+branding:
+  icon: check-circle
+  color: green
